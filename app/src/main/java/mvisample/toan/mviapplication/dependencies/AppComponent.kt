@@ -1,7 +1,7 @@
 package mvisample.toan.mviapplication.dependencies
 
 import dagger.Component
-import mvisample.toan.mviapplication.MainFragment
+import mvisample.toan.mviapplication.mvi.MainFragment
 import javax.inject.Singleton
 
 /**

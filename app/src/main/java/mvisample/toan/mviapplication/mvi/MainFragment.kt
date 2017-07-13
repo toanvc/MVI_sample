@@ -1,4 +1,4 @@
-package mvisample.toan.mviapplication
+package mvisample.toan.mviapplication.mvi
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -11,9 +11,11 @@ import com.madsciencesoftware.mvitestenvironment.MainView.MainPresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_list_git.*
+import mvisample.toan.mviapplication.MainViewState
+import mvisample.toan.mviapplication.MyApplication
+import mvisample.toan.mviapplication.R
+import mvisample.toan.mviapplication.RepositoryAdapter
 import mvisample.toan.mviapplication.model.RepositoryItem
-import mvisample.toan.mviapplication.util.MyUtils
-import mvisample.toan.mviapplication.mvi.MainView
 import javax.inject.Inject
 
 

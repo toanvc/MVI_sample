@@ -1,26 +1,26 @@
 package com.madsciencesoftware.mvitestenvironment.MainView
 
-import android.util.Log
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
-import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import mvisample.toan.mviapplication.MainViewAction
-import mvisample.toan.mviapplication.mvi.MainView
 import mvisample.toan.mviapplication.MainViewState
+import mvisample.toan.mviapplication.mvi.MainView
 import mvisample.toan.mviapplication.mvi.QueryInteractor
 
 class MainPresenter(val searchInteractor: QueryInteractor) : MviBasePresenter<MainView, MainViewState>() {
 
     override fun bindIntents() {
-        val load = intent(MainView::loadIntent)
-                .flatMap { loadString -> searchInteractor.search(loadString) }
-                .startWith(MainViewAction.Loading())
-                .subscribeOn(Schedulers.io())
+//        val load = intent(MainView::loadIntent)
+//                .flatMap { loadString -> searchInteractor.search(loadString) }
+//                .startWith(MainViewAction.Loading())
+//                .subscribeOn(Schedulers.io())
 
         val select = intent(MainView::selectIntent)
-                .flatMap { content -> searchInteractor.search(content) }
+                .flatMap { content ->
+                    searchInteractor.search(content)
+                            .startWith(MainViewAction.Loading())
+                }
                 .subscribeOn(Schedulers.io())
 
         val allIntents = select//Observable.merge(load, select)
@@ -33,10 +33,7 @@ class MainPresenter(val searchInteractor: QueryInteractor) : MviBasePresenter<Ma
 
     fun stateReducer(previousState: MainViewState, action: MainViewAction): MainViewState {
         return when (action) {
-            is MainViewAction.Loading -> {
-                Log.e("toanvc", "loading")
-                previousState.builder().setLoading(true).build()
-            }
+            is MainViewAction.Loading -> previousState.builder().setLoading(true).build()
             is MainViewAction.QueryValueData -> previousState.builder().setLoading(true).setQuery(action.query).build()
             is MainViewAction.ErrorState -> previousState.builder().setLoading(false).setIsError(true).setError(action.err).build()
             is MainViewAction.ResultData -> previousState.builder().setLoading(false).setIsError(false).setListData(action.listData).build()
